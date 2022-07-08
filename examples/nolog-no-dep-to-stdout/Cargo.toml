@@ -1,0 +1,6 @@
+[package]
+name = "nolog-no-dep-to-stdout"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]

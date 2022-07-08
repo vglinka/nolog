@@ -1,0 +1,8 @@
+[package]
+name = "as-dep-to-file-timestamp-chrono"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+nolog-plain = "0.2.1"
+chrono = "0.4"

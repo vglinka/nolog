@@ -1,0 +1,16 @@
+[package]
+name = "nolog"
+version = "0.2.3"
+authors = ["Vadim Glinka <vadgit@yandex.com>"]
+description = "Simple logger. Colored. 20 lines of code, 0 deps. Automatically disabled in the release build."
+keywords = ["log", "logger", "logging", "simplelog", "simple-log"]
+categories = ["development-tools", "development-tools::debugging", "development-tools::testing", "rust-patterns"]
+repository = "https://github.com/vglinka/nolog"
+readme = "README.md"
+edition = "2021"
+license = "MIT"
+
+
+
+
+[dependencies]
