@@ -1,0 +1,178 @@
+[package]
+name = "nolog"
+version = "1.0.5"
+authors = ["Vadim Glinka <vadgit@yandex.com>"]
+description = "Pretty (by default) and easy to use logger. Compile-time level filtering, zero deps."
+keywords = ["log", "logger", "logging", "pretty-logger", "simple-logger"]
+categories = ["development-tools", "development-tools::debugging", "development-tools::testing",]
+repository = "https://github.com/vglinka/nolog"
+readme = "README.md"
+edition = "2021"
+license = "Apache-2.0 OR MIT"
+exclude = ["/assets", "/target"]
+
+[features]
+# -----------------------------------------------------------------------------
+# Don't disable logger in release build
+# -----------------------------------------------------------------------------
+
+release = []
+
+
+# -----------------------------------------------------------------------------
+# Filtering
+# -----------------------------------------------------------------------------
+
+logonly  = ["glob", "log_enabled"]
+logmod   = ["glob"]
+logcatch = ["glob"]
+
+
+# -----------------------------------------------------------------------------
+# Log to file (to stderr by default)
+# -----------------------------------------------------------------------------
+
+# Enable log to file, disable log to stderr
+tofile = ["glob", "plain"]
+
+# Don't `.flush()` after every message  
+no_auto_flush = []
+
+
+# -----------------------------------------------------------------------------
+# Level headers
+# -----------------------------------------------------------------------------
+
+# Show level name for key-value: `CRIT: Key: value [src/main.rs 90:5]`
+#                                 ^^^^
+#
+# It's disabled by default: `Key: value [src/main.rs 90:5]`
+show_lvl_header_kv = []
+
+
+# -----------------------------------------------------------------------------
+# Colors
+# -----------------------------------------------------------------------------
+
+# `nolog` colored by default, use this feature for plain output
+plain = []
+
+
+# -----------------------------------------------------------------------------
+# Indents. 1 indent = 1 space.
+# -----------------------------------------------------------------------------
+
+# Ignore all indents
+indent_ignore_all = []
+
+# Base indents
+#
+# 0 indents ("indent_base_zero"):
+# `     Running `target/debug/app``
+# `DEBG: Message [src/main.rs 83:5]`
+#
+# 6 indents (default):
+# `     Running `target/debug/app``
+# `      DEBG: Message [src/main.rs 83:5]`
+#  ^^^^^^
+#  6 indents added
+indent_base_zero  = []
+indent_base_one   = []
+indent_base_two   = []
+indent_base_three = []
+indent_base_four  = []
+indent_base_five  = []
+indent_base_seven = []
+indent_base_eight = []
+indent_base_nine  = []
+indent_base_ten   = []
+
+# Key-value default indents (6 by default)
+# `debug!(->[0] "Message");` --> 0 indent (passed by user)
+# `debug!("Message");` ---------> 6 indent (default)
+indent_kv_default_zero  = []
+indent_kv_default_one   = []
+indent_kv_default_two   = []
+indent_kv_default_three = []
+indent_kv_default_four  = []
+indent_kv_default_five  = []
+indent_kv_default_seven = []
+indent_kv_default_eight = []
+indent_kv_default_nine  = []
+indent_kv_default_ten   = []
+
+
+# -----------------------------------------------------------------------------
+# Newline
+# -----------------------------------------------------------------------------
+
+newline_ignore = []
+
+
+# -----------------------------------------------------------------------------
+# Level filtering implementation
+# -----------------------------------------------------------------------------
+
+all   = ["trace", "debug", "info", "warn", "error", "crit"]
+trace = ["debug", "info", "warn", "error", "crit"]
+debug = ["info", "warn", "error", "crit"]
+info  = ["warn", "error", "crit"]
+warn  = ["error", "crit"]
+error = ["crit"]
+crit  = []
+
+
+# -----------------------------------------------------------------------------
+# Location `[src/main.rs 155:9]`
+# -----------------------------------------------------------------------------
+
+# Don't show location `[src/main.rs 155:9]`
+location_hide = []
+
+# like this: `[src/main.rs 155:9]`
+location_style_classic = [] 
+
+
+# -----------------------------------------------------------------------------
+# Customization
+# -----------------------------------------------------------------------------
+
+custom_leading    = []
+custom_before_msg = []
+custom_after_msg  = []
+custom_trailing   = []
+
+custom_colors = []
+custom_sep = []
+custom_lvl_headers = []
+custom_location_style = []
+
+custom_writelog = []
+custom_writelog_inner = []
+custom_msg_render = []
+
+# -----------------------------------------------------------------------------
+# Separator. Default = "⧽ "
+# -----------------------------------------------------------------------------
+
+# ": "
+sep_colon = []
+
+# " "
+sep_space = []
+
+# ""
+sep_hide  = []
+
+
+# -----------------------------------------------------------------------------
+# Dev features
+# -----------------------------------------------------------------------------
+glob = []
+log_enabled = []
+
+
+
+
+
+
