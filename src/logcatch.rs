@@ -64,7 +64,7 @@ writelog_flush_helper {
 }
 
 #[macro_export] macro_rules!
-writelog {
+logcatch_writelog_helper {
     // crit msg
     ( [[crit]], [$msg_type:tt], $msg:expr ) => {
         writelog_flush_helper!($msg);
@@ -91,4 +91,8 @@ writelog {
         
     };
 }
+
+#[macro_export]
+#[cfg(not(feature = "custom_writelog"))] macro_rules!
+writelog { ( $($a:tt)* ) => { logcatch_writelog_helper!($($a)*); }; }
 

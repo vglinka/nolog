@@ -10,6 +10,7 @@ Zero deps. No unsafe (by `#![deny(unsafe_code)]`).
 <a href="https://github.com/vglinka/nolog/blob/main/examples/novus/main.rs" target="_blank">See this example code</a>
 </p>
 
+## nolog features
 - In most cases `nolog` uses a `format_args!()` (that avoids heap
   allocations) and compile-time level filtering by Cargo features.
 - Filtering by module path (`logmod` feature).
@@ -36,6 +37,8 @@ Zero deps. No unsafe (by `#![deny(unsafe_code)]`).
   `tofile` feature. You may set the buffer size. Automatic flush after
   each message will be used. If you want wait for the buffer to fill
   or to do it manually with `logflush!()` then use `no_auto_flush` feature.
+- Custom output redirection. For example, to a `file` and to `stderr`
+  at the same time. An example is at the very bottom of the page.
 - You can add a timestamp like `[2022-07-10 06:49:33.646361181 UTC]`
   using a third party library you like. An example is below.
 - Support for chaining multiple messages into one (they must all be
@@ -783,6 +786,114 @@ fn main(){
 
 [This example on GitHub](https://github.com/vglinka/nolog/tree/main/examples/custom_color_scheme).
 
+## Custom output redirection
+
+It is possible to redirect output. For example, we will redirect
+output to stderr and to a file at the same time. The limitation is that
+output to stderr will be the same as to a file, it will not be colorized.
+
+**Cargo.toml**
+
+```toml
+#...
+[dependencies]
+nolog = { version = "1", features = [] }
+
+[features]
+nolog_setup = [
+    "custom_writelog_inner",
+    "nolog/tofile"
+]
+custom_writelog_inner = ["nolog/custom_writelog_inner"]
+#...
+```
+
+Here is an example:
+
+**main.rs**
+
+```rust
+use std::fs::OpenOptions;
+use std::io::{self, Read};
+use std::path::PathBuf;
+
+#[macro_use]
+extern crate nolog;
+
+// use `cargo run --features trace`
+
+#[macro_use] 
+pub mod logger_setup {
+    #[macro_export]
+    #[cfg(feature = "custom_writelog_inner")] macro_rules!
+    writelog_inner { ( $msg:expr ) => {
+            eprintln!("{}", $msg); // write to stderr
+            tofile_writelog_inner_helper!($msg); // write to file
+        }
+    }
+}
+
+mod other {
+    pub fn from_other_mod() -> () {
+        crit!(->[0] "Other" => "Hello from other mod! This is key-value msg.");
+    }
+}
+
+fn main() -> io::Result<()> {
+    let path = PathBuf::from("log.txt");
+    let file = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .truncate(true)
+        //^^^^^^^ truncate the file to 0 length if it already exists.
+        //.append(true)
+        .open(&path)?;
+        
+    // Initialization
+    // Don't use macros like `debug!("msg");` before initialization.
+    logfile!(file);
+    
+    eprintln!("\n-- From eprintln: --");
+    crit!("Hello from main! This is usual msg.");
+    other::from_other_mod();
+    
+    let mut file = OpenOptions::new()
+        .read(true)
+        .open(&path)?;
+    
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)?;
+    println!("\n-- In {path:?} --");
+    println!("{contents}");
+    
+    Ok(())
+}
+```
+
+[This example on GitHub](https://github.com/vglinka/nolog/tree/main/examples/custom_output_redirection).
+
+Output:
+
+```sh
+-- From eprintln: --
+CRIT: Hello from main! This is usual msg. [main.rs 54:5]
+CRIT: Other: Hello from other mod! This is key-value msg. [main.rs 34:9]
+
+-- In "log.txt" --
+CRIT: Hello from main! This is usual msg. [main.rs 54:5]
+CRIT: Other: Hello from other mod! This is key-value msg. [main.rs 34:9]
+
+```
+
+## Other customization options
+
+`nolog` has other customization options not described here, since
+it is unlikely that they will be in demand by a wide range of users.
+Their use is similar to that described above.
+You can see the full up-to-date list in
+[Cargo.toml](https://github.com/vglinka/nolog/tree/main/Cargo.toml).
+
 ## Logging in tests
 
 Logging in tests works exactly the same, except that Rust test programs
@@ -802,6 +913,7 @@ cargo test --features trace
 
 ## Changelog
 
+- **1.0.10 - 1.0.11** – Minor changes, an example with output redirection has been added.
 - **1.0.1 - 1.0.9** – Small changes in Readme etc.
 - **1.0.0** – Release. Completely rewritten.
 - **0.1.1-0.2.3** – Early versions.

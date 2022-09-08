@@ -1,0 +1,54 @@
+[package]
+name = "custom_output_redirection"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "custom_output_redirection"
+path = "./main.rs"
+
+[dependencies]
+nolog = { version = "*", path = "../../", features = [] }
+
+[features]
+nolog_setup = [
+    "custom_writelog_inner",
+    "nolog/tofile",
+    
+    "nolog/show_lvl_header_kv",
+    "nolog/indent_ignore_all",
+    "nolog/newline_ignore",
+    "nolog/location_style_classic",
+    "nolog/sep_colon"
+]
+custom_writelog_inner = ["nolog/custom_writelog_inner"]
+
+# example `classic`
+#nolog_setup = ["nolog/show_lvl_header_kv", "nolog/indent_ignore_all", "nolog/newline_ignore", "nolog/location_style_classic", "nolog/sep_colon"]
+
+# example `classic_plain`
+#nolog_setup = ["nolog/plain", "nolog/show_lvl_header_kv", "nolog/indent_ignore_all", "nolog/newline_ignore", "nolog/location_style_classic", "nolog/sep_colon"]
+
+trace = ["nolog/trace", "nolog_setup"]
+debug = ["nolog/debug", "nolog_setup"]
+info  = ["nolog/info",  "nolog_setup"]
+warn  = ["nolog/warn",  "nolog_setup"]
+error = ["nolog/error", "nolog_setup"]
+crit  = ["nolog/crit",  "nolog_setup"]
+
+logonly  = ["nolog/logonly"]
+logcatch = ["nolog/logcatch"]
+logmod   = ["nolog/logmod"]
+
+
+
+
+
+
+
+
+
+
+
+
+

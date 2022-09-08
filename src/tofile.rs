@@ -46,8 +46,8 @@ auto_flush { ( $buf:expr ) => {
 }
 
 #[macro_export] macro_rules!
-writelog_inner { ( $msg:expr ) => { 
-        glob_access!( 
+tofile_writelog_inner_helper { ( $msg:expr ) => {
+    glob_access!( 
             $crate::tofile::BUF,
             buf,
             { 
@@ -66,6 +66,13 @@ writelog_inner { ( $msg:expr ) => {
                 }
             }
         );
+    }
+}
+
+#[macro_export]
+#[cfg(not(feature = "custom_writelog_inner"))] macro_rules!
+writelog_inner { ( $msg:expr ) => { 
+        tofile_writelog_inner_helper!($msg);
     }
 }
 
