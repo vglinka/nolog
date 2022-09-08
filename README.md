@@ -6,7 +6,9 @@ Zero deps. No unsafe (by `#![deny(unsafe_code)]`).
 
 ![nolog](https://raw.githubusercontent.com/vglinka/nolog/main/assets/term.gif)
 
-[See this example code](https://github.com/vglinka/nolog/blob/main/examples/novus/main.rs).
+<p align="center">
+<a href="https://github.com/vglinka/nolog/blob/main/examples/novus/main.rs" target="_blank">See this example code</a>
+</p>
 
 - In most cases `nolog` uses a `format_args!()` (that avoids heap
   allocations) and compile-time level filtering by Cargo features.
@@ -90,6 +92,17 @@ fn main() {
 }
 ```
 
+[This example on GitHub](https://github.com/vglinka/nolog/tree/main/examples/min_example).
+
+`nolog` has the same syntax as most loggers based on the `log` crate.
+`nolog` extends the `log` crate syntax by adding new features.
+However, `nolog` is not based on `log` crate, it just has the same
+macro names.
+
+Therefore, switching to `nolog` will require minimal changes in the code.
+In fact, this boils down to a change in `Cargo.toml`
+and line `extern crate nolog;`.
+
 Then:
 
 ```sh
@@ -99,12 +112,18 @@ cargo run --features trace
 Or, for example
 
 ```sh
+# The output will be empty because there are no logonly
+# blocks, etc. in the code.
+# This is just to demonstrate the use of several features.
 cargo run --features trace,logonly,logcatch,logmod
 ```
 
 It's the same but noisier
 
 ```sh
+# The output will be empty because there are no logonly
+# blocks, etc. in the code.
+# This is just to demonstrate the use of several features.
 cargo run --features nolog/trace,nolog/logonly,nolog/logcatch,nolog/logmod
 ```
 
@@ -117,8 +136,10 @@ cargo run --features nolog/trace,nolog/logonly,nolog/logcatch,nolog/logmod
 **Cargo.toml**
 
 ```toml
+#...
 [dependencies]
 nolog = { version = "1", features = ["tofile"] }
+#...
 ```
 
 **main.rs**
@@ -161,6 +182,8 @@ fn main() -> io::Result<()> {
 }
 ```
 
+[This example on GitHub](https://github.com/vglinka/nolog/tree/main/examples/tofile).
+
 Optionally, you can set the buffer size.
 
 ```rust
@@ -175,8 +198,10 @@ with `logflush!()` then use `no_auto_flush` feature.
 **Cargo.toml**
 
 ```toml
+#...
 [dependencies]
 nolog = { version = "1", features = ["tofile", "no_auto_flush"] }
+#...
 ```
 
 Then use `logflush!()` to flush the log manually.
@@ -204,6 +229,7 @@ For this example, we will use `chrono` crate.
 **Cargo.toml**
 
 ```toml
+#...
 [dependencies]
 nolog = { version = "1", features = [] }
 chrono = "0.4"
@@ -215,6 +241,7 @@ custom_before_msg = ["nolog/custom_before_msg"]
 custom_after_msg  = ["nolog/custom_after_msg"]
 
 nolog_setup = ["custom_leading"]
+#...
 ```
 
 We have 4 options here:
@@ -268,6 +295,8 @@ fn main() {
     other::from_other_mod();   
 }
 ```
+
+[This example on GitHub](https://github.com/vglinka/nolog/tree/main/examples/timestamp).
 
 Output:
 
@@ -524,7 +553,7 @@ You can specify indentation in the following way:
 `crit!(->[X,Y,Z] "msg");`
 
 - `X` - Indents.
-- `Y` - Add `Y` blank lines before message (same effect as `newlin!(Y)`).
+- `Y` - Add `Y` blank lines before message (same effect as `newline!(Y)`).
 - `Z` - Add `Z` blank lines after message.
 
 All of these arguments are optional:
@@ -698,12 +727,14 @@ You can create your own color scheme for the logger.
 **Cargo.toml**
 
 ```toml
+#...
 [dependencies]
 nolog = { version = "1", features = [] }
 
 [features]
 custom_colors = ["nolog/custom_colors"]
 nolog_setup = ["custom_colors"]
+#...
 ```
 
 Here is an example:
@@ -750,6 +781,8 @@ fn main(){
 }
 ```
 
+[This example on GitHub](https://github.com/vglinka/nolog/tree/main/examples/custom_color_scheme).
+
 ## Logging in tests
 
 Logging in tests works exactly the same, except that Rust test programs
@@ -769,6 +802,6 @@ cargo test --features trace
 
 ## Changelog
 
-- **1.0.1 - 1.0.5** – Small changes in Readme etc.
+- **1.0.1 - 1.0.9** – Small changes in Readme etc.
 - **1.0.0** – Release. Completely rewritten.
 - **0.1.1-0.2.3** – Early versions.
