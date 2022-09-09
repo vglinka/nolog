@@ -13,9 +13,10 @@ Zero deps. No unsafe (by `#![deny(unsafe_code)]`).
 ## nolog features
 - In most cases `nolog` uses a `std::format_args!()` (that avoids heap
   allocations) and compile-time level filtering by Cargo features.
-  If you use the default setup without additional features, then
-  in most cases `nolog` will only work on compile-time macros without using
-  functions, methods, `if` or loops. in fact it will expand into
+  If you use the default setup without additional features (like `logmod`,
+  `logonly`, `logcatch`, `tofile`), then in most cases `nolog` will only
+  work on compile-time macros without using functions, methods, `if`
+  or loops. In fact it will expand into
   the string `eprintln!("{}", format_args!("{}{}{}{}","   ", "CRIT⧽", "msg", "[34] src/main.rs"));`.
   Nothing extra.
 - Filtering by module path (`logmod` feature).
@@ -918,7 +919,7 @@ cargo test --features trace
 
 ## Changelog
 
-- **1.0.12** – Small changes in Readme etc.
+- **1.0.12 - 1.0.13** – Small changes in Readme etc.
 - **1.0.10 - 1.0.11** – Minor changes, an example with output redirection has been added.
 - **1.0.1 - 1.0.9** – Small changes in Readme etc.
 - **1.0.0** – Release. Completely rewritten.
