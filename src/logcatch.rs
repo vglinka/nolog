@@ -32,7 +32,7 @@ logcatch {
             {
                 if buffer.0 > $new_capacity {
                     for _ in 0..(buffer.0 - $new_capacity) {
-                        buffer.1.pop_back();
+                        buffer.1.pop_front();
                     }
                 }
                 buffer.0 = $new_capacity;      
@@ -50,10 +50,10 @@ writelog_flush_helper {
             $crate::logcatch::LOG_CATCH,
             buffer,
             {
-                buffer.1.iter()
-                    .rev()
-                    // Write all msg stored in buffer
-                    .for_each(|x| writelog_inner!(x));
+                // Write all msg stored in buffer
+                for msg in &buffer.1 {
+                    writelog_inner!(msg);
+                }
                 buffer.1.clear();
                 buffer
             }
@@ -80,10 +80,10 @@ logcatch_writelog_helper {
             buffer,
             { 
                 if  buffer.1.len() < buffer.0 {
-                    buffer.1.push_front(format!("{}", $msg));
+                    buffer.1.push_back(format!("{}", $msg));
                 } else {
-                    buffer.1.pop_back();
-                    buffer.1.push_front(format!("{}", $msg));
+                    buffer.1.pop_front();
+                    buffer.1.push_back(format!("{}", $msg));
                 }                
                 buffer
             }

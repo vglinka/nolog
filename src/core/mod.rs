@@ -9,13 +9,6 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-#[cfg(
-    all(
-        not(feature = "logonly"),
-        not(feature = "logmod"),
-))]
-pub mod level;
-
 pub mod level_inner;
 pub mod format;
 pub mod msg_render;
@@ -28,3 +21,9 @@ pub mod indent;
 pub mod indent_base;
 pub mod newline;
 
+#[cfg(
+    all(
+        not(feature = "logonly"),
+        not(feature = "logmod"),
+))]
+pub mod level;

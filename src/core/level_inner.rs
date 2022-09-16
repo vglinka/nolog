@@ -11,8 +11,8 @@
 
 #[macro_export] macro_rules!
 level_helper { 
-    // On:  [#], [x], [v], [+], [on]
-    // Off: [ ], [_], [-], [off]
+    // On:  [#], [x], [v], [+], [true], [bool_var], [on]
+    // Off: [ ], [_], [-], [false], [bool_var], [off]
     //
     //
     //        +----------+                                      +------------------------+    
@@ -202,10 +202,4 @@ error_inner { ( $($a:tt)* ) => { level_helper!([[error]] $($a)*); } }
 #[macro_export]
 #[cfg(feature = "crit")] macro_rules!
 crit_inner { ( $($a:tt)* )  => { level_helper!([[crit]] $($a)*); } }
-
-
-
-
-
-
 

@@ -94,6 +94,5 @@ location_format {
         not(feature = "custom_location_style"),
         not(feature = "location_style_classic"),
 ))] macro_rules!
-location_format {
-    () => { "" };
-}
+location_format { () => { "" }; }
+

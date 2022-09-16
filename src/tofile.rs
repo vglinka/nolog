@@ -41,9 +41,7 @@ auto_flush { ( $buf:expr ) => {} }
 
 #[macro_export]
 #[cfg(not(feature = "no_auto_flush"))] macro_rules!
-auto_flush { ( $buf:expr ) => {
-    $buf.flush().ok(); }
-}
+auto_flush { ( $buf:expr ) => { $buf.flush().ok(); } }
 
 #[macro_export] macro_rules!
 tofile_writelog_inner_helper { ( $msg:expr ) => {
@@ -71,10 +69,7 @@ tofile_writelog_inner_helper { ( $msg:expr ) => {
 
 #[macro_export]
 #[cfg(not(feature = "custom_writelog_inner"))] macro_rules!
-writelog_inner { ( $msg:expr ) => { 
-        tofile_writelog_inner_helper!($msg);
-    }
-}
+writelog_inner { ( $msg:expr ) => { tofile_writelog_inner_helper!($msg); } }
 
 #[macro_export] macro_rules!
 logflush { () => { 

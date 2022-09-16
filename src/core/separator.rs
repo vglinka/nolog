@@ -17,34 +17,25 @@
         not(feature = "sep_space"),
         not(feature = "custom_sep"),
 ))] macro_rules!
-sep {
-    () => { "⧽ " };
-}
+sep { () => { "⧽ " }; }
 
 #[macro_export]
 #[cfg(feature = "sep_colon")] macro_rules!
-sep {
-    () => { ": " };
-}
+sep { () => { ": " }; }
 
 #[macro_export]
 #[cfg(feature = "sep_space")] macro_rules!
-sep {
-    () => { " " };
-}
+sep { () => { " " }; }
 
 #[macro_export]
 #[cfg(feature = "sep_hide")] macro_rules!
-sep {
-    () => { "" };
-}
+sep { () => { "" }; }
 
 #[macro_export]
 #[cfg(feature = "show_lvl_header_kv")] macro_rules!
-sep_kv {
-    () => { sep!() };
-}
+sep_kv { () => { sep!() }; }
 
 #[macro_export]
 #[cfg(not(feature = "show_lvl_header_kv"))] macro_rules!
 sep_kv { () => { "" } }
+

@@ -919,7 +919,7 @@ cargo test --features trace
 
 ## Changelog
 
-- **1.0.12 - 1.0.13** – Small changes in Readme etc.
+- **1.0.12 - 1.0.14** – Small changes in Readme etc. Minor optimization fixes.
 - **1.0.10 - 1.0.11** – Minor changes, an example with output redirection has been added.
 - **1.0.1 - 1.0.9** – Small changes in Readme etc.
 - **1.0.0** – Release. Completely rewritten.
