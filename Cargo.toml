@@ -1,6 +1,6 @@
 [package]
 name = "nolog"
-version = "1.0.14"
+version = "1.0.15"
 authors = ["Vadim Glinka <vadgit@yandex.com>"]
 description = "Pretty (by default) and easy to use logger. Compile-time level filtering, zero deps."
 keywords = ["log", "logger", "logging", "pretty-logger", "simple-logger"]

@@ -1,8 +1,8 @@
 ## nolog logger
 
 Convenient and 'beautiful by default' logger for debugging your programs.
-Easy to use, you don't need to learn anything to start using it.
-Zero deps. No unsafe (by `#![deny(unsafe_code)]`).
+Easy to use, complete documentation is provided on this page. Zero deps.
+No unsafe (by `#![deny(unsafe_code)]`).
 
 ![nolog](https://raw.githubusercontent.com/vglinka/nolog/main/assets/term.gif)
 
@@ -58,6 +58,10 @@ info!(
 
 ## Using nolog
 
+You need to completely copy the contents of this file to your `cargo.toml`.
+Then you can write `cargo run --features trace,logonly` instead of 
+`cargo run --features nolog/trace,nolog/logonly`.
+
 **Cargo.toml**
 
 ```toml
@@ -85,6 +89,15 @@ logcatch = ["nolog/logcatch"]
 logmod   = ["nolog/logmod"]
 ```
 
+The commented lines `nolog_setup = ["nolog/show_lvl_h...]` are
+the appearance settings (indents, color scheme, styles, etc).
+Uncomment one of them to see what happens (don't forget
+to remove `nolog_setup = []`).
+
+Appearance settings are selected using conditional compilation,
+so they have a zero cost.
+
+
 **main.rs**
 
 ```rust
@@ -106,11 +119,9 @@ fn main() {
 `nolog` has the same syntax as most loggers based on the `log` crate.
 `nolog` extends the `log` crate syntax by adding new features.
 However, `nolog` is not based on `log` crate, it just has the same
-macro names.
+macro names. This also results in the `nolog` having 0 dependencies.
 
 Therefore, switching to `nolog` will require minimal changes in the code.
-In fact, this boils down to a change in `Cargo.toml`
-and line `extern crate nolog;`.
 
 Then:
 
@@ -919,6 +930,7 @@ cargo test --features trace
 
 ## Changelog
 
+- **1.0.15** – Small changes in Readme etc.
 - **1.0.12 - 1.0.14** – Small changes in Readme etc. Minor optimization fixes.
 - **1.0.10 - 1.0.11** – Minor changes, an example with output redirection has been added.
 - **1.0.1 - 1.0.9** – Small changes in Readme etc.
