@@ -1,4 +1,4 @@
-## nolog logger
+# nolog logger
 
 Convenient and 'beautiful by default' logger for debugging your programs.
 Easy to use, complete documentation is provided on this page. Zero deps.
@@ -43,10 +43,10 @@ No unsafe (by `#![deny(unsafe_code)]`).
   `tofile` feature. You may set the buffer size. Automatic flush after
   each message will be used. If you want wait for the buffer to fill
   or to do it manually with `logflush!()` then use `no_auto_flush` feature.
-- Custom output redirection. For example, to a `file` and to `stderr`
-  at the same time. An example is at the very bottom of the page.
+- [Custom output redirection](#custom-output-redirection). For example, to a `file` and to `stderr`
+  at the same time.
 - You can add a timestamp like `[2022-07-10 06:49:33.646361181 UTC]`
-  using a third party library you like. An example is below.
+  using a third party library you like. [How to add a timestamp](#how-to-add-a-timestamp).
 - Support for chaining multiple messages into one (they must all be
   of the same type: `usual` or `key-value`): 
 ```rust
@@ -56,11 +56,34 @@ info!(
 );
 ```
 
+## Table of contents
+
+- [Using nolog](#using-nolog)
+- [Tofile. Writing log entries to a file](#tofile-writing-log-entries-to-a-file)
+- [How to add a timestamp](#how-to-add-a-timestamp)
+- [Styles](#styles)
+- [Chaining](#chaining)
+- [Logmod. Filtering by module path](#logmod-filtering-by-module-path)
+- [Logonly. Display messages only from a selected section of code](#logonly-display-messages-only-from-a-selected-section-of-code)
+- [Logcatch. Smart logging](#logcatch-smart-logging)
+- [Quick disable and enable messages](#quick-disable-and-enable-messages)
+- [Indentation and new lines](#indentation-and-new-lines)
+- [Colors](#colors)
+- [Level headers](#level-headers)
+- [Don't disable logger in release build](#dont-disable-logger-in-release-build)
+- [Location](#location)
+- [Separator](#separator)
+- [Custom color scheme](#custom-color-scheme)
+- [Custom output redirection](#custom-output-redirection)
+- [Other customization options](#other-customization-options)
+- [Logging in tests](#logging-in-tests)
+- [Changelog](#changelog)
+
 ## Using nolog
 
 You need to completely copy the contents of this file to your `cargo.toml`.
 Then you can write `cargo run --features trace,logonly` instead of 
-`cargo run --features nolog/trace,nolog/logonly`.
+`cargo run --features nolog/trace,nolog/logonly` [See example on GitHub](https://github.com/vglinka/nolog/tree/main/examples/min_example).
 
 **Cargo.toml**
 
@@ -90,7 +113,7 @@ logmod   = ["nolog/logmod"]
 ```
 
 The commented lines `nolog_setup = ["nolog/show_lvl_h...]` are
-the appearance settings (indents, color scheme, styles, etc).
+the [appearance](#styles) settings (indents, color scheme, styles, etc).
 Uncomment one of them to see what happens (don't forget
 to remove `nolog_setup = []`).
 
@@ -123,7 +146,7 @@ macro names. This also results in the `nolog` having 0 dependencies.
 
 Therefore, switching to `nolog` will require minimal changes in the code.
 
-Then:
+Ok. Now we can use the following command:
 
 ```sh
 cargo run --features trace
@@ -135,6 +158,7 @@ Or, for example
 # The output will be empty because there are no logonly
 # blocks, etc. in the code.
 # This is just to demonstrate the use of several features.
+
 cargo run --features trace,logonly,logcatch,logmod
 ```
 
@@ -144,12 +168,15 @@ It's the same but noisier
 # The output will be empty because there are no logonly
 # blocks, etc. in the code.
 # This is just to demonstrate the use of several features.
+
 cargo run --features nolog/trace,nolog/logonly,nolog/logcatch,nolog/logmod
 ```
 
 **Result:**
 
 ![example](https://raw.githubusercontent.com/vglinka/nolog/main/assets/min.png)
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## Tofile. Writing log entries to a file
 
@@ -238,6 +265,8 @@ Then use `logflush!()` to flush the log manually.
     logflush!();     
 ...
 ```
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## How to add a timestamp
 
@@ -333,6 +362,8 @@ With `classic` style:
 [2022-09-07 12:29:45.859225186 +03:00] CRIT: Other: Hello from other mod! This is key-value msg. [src/main.rs 29:9]
 ```
 
+[↑ Table of contents ↑](#table-of-contents)
+
 ## Styles
 
 #### Default
@@ -353,6 +384,8 @@ nolog_setup = ["nolog/plain", "nolog/show_lvl_header_kv", "nolog/indent_ignore_a
 ```
 
 ![styles](https://raw.githubusercontent.com/vglinka/nolog/main/assets/style.gif)
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## Chaining
 
@@ -376,6 +409,8 @@ debug!(
 );
 ```
 
+[↑ Table of contents ↑](#table-of-contents)
+
 ## Logmod. Filtering by module path
 
 Add it as early as possible in the code:
@@ -396,6 +431,8 @@ logmod!(
 Then
 
 `cargo run --features trace,logmod`
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## Logonly. Display messages only from a selected section of code
 
@@ -432,6 +469,8 @@ logonly { ( $($a:tt)* ) => { $($a)* }; }
 
 It simply writes down the code it received.
 
+[↑ Table of contents ↑](#table-of-contents)
+
 ## Logcatch. Smart logging
 
 Hide all messages, show the previous `Х` messages if an `error` or `crit`
@@ -450,6 +489,8 @@ To enable this feature, use:
 
 Each new line created with `newline!()` or `->[_,1,1]`(about
 what it will be below) counts as a separate message.
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## Quick disable and enable messages
 
@@ -501,6 +542,8 @@ logonly!{[_];
 This way you can leave `logonly!()` in the code and if it is required
 in the future just enable it.
 
+[↑ Table of contents ↑](#table-of-contents)
+
 #### Variables and expressions
 
 If necessary, you can control messages using variables and expressions.
@@ -524,6 +567,8 @@ crit!([(is_message_show_fn())]; "The planet {} has been destroyed.", self.name);
 //     ^                    ^
 //     Add parentheses
 ```
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## Indentation and new lines
 
@@ -670,6 +715,8 @@ nolog_setup = ["nolog/indent_ignore_all"]
 nolog_setup = ["nolog/newline_ignore"]
 ```
 
+[↑ Table of contents ↑](#table-of-contents)
+
 ## Colors
 
 `nolog` colored by default, use this feature for plain output:
@@ -677,6 +724,8 @@ nolog_setup = ["nolog/newline_ignore"]
 ```toml
 nolog_setup = ["nolog/plain"]
 ```
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## Level headers
 
@@ -695,11 +744,15 @@ It's disabled by default:
 Key: value [src/main.rs 90:5]
 ```
 
+[↑ Table of contents ↑](#table-of-contents)
+
 ## Don't disable logger in release build
 
 ```toml
 nolog = { version = "1", features = ["release"] }
 ```
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## Location
 
@@ -716,6 +769,8 @@ nolog_setup = ["nolog/location_style_classic"]
 ```
 
 ![location](https://raw.githubusercontent.com/vglinka/nolog/main/assets/location.gif)
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## Separator
 
@@ -739,6 +794,8 @@ nolog_setup = ["nolog/sep_space"]
 ```toml
 nolog_setup = ["nolog/sep_hide"]
 ```
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## Custom color scheme
 
@@ -802,6 +859,8 @@ fn main(){
 ```
 
 [This example on GitHub](https://github.com/vglinka/nolog/tree/main/examples/custom_color_scheme).
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## Custom output redirection
 
@@ -903,6 +962,8 @@ CRIT: Other: Hello from other mod! This is key-value msg. [main.rs 34:9]
 
 ```
 
+[↑ Table of contents ↑](#table-of-contents)
+
 ## Other customization options
 
 `nolog` has other customization options not described here, since
@@ -910,6 +971,8 @@ it is unlikely that they will be in demand by a wide range of users.
 Their use is similar to that described above.
 You can see the full up-to-date list in
 [Cargo.toml](https://github.com/vglinka/nolog/tree/main/Cargo.toml).
+
+[↑ Table of contents ↑](#table-of-contents)
 
 ## Logging in tests
 
@@ -928,9 +991,11 @@ The output of failed tests will be displayed anyway.
 cargo test --features trace
 ```
 
+[↑ Table of contents ↑](#table-of-contents)
+
 ## Changelog
 
-- **1.0.15** – Small changes in Readme etc.
+- **1.0.15 - 1.0.16** – Small changes in Readme etc.
 - **1.0.12 - 1.0.14** – Small changes in Readme etc. Minor optimization fixes.
 - **1.0.10 - 1.0.11** – Minor changes, an example with output redirection has been added.
 - **1.0.1 - 1.0.9** – Small changes in Readme etc.

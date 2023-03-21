@@ -1,9 +1,8 @@
-// Copyright (c) 2022-present Vadim Glinka
+// This example is licensed under the CC0 license.
+// https://creativecommons.org/share-your-work/public-domain/cc0
 //
-// Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
-// http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
-// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
-// option.
+// This means that you can use the code from this example in your projects
+// without any restrictions or attribution.
 
 use std::fs::OpenOptions;
 use std::io::{self, Read};
