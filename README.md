@@ -59,6 +59,7 @@ info!(
 ## Table of contents
 
 - [Using nolog](#using-nolog)
+- [Using nolog with `--features`](#)
 - [Tofile. Writing log entries to a file](#tofile-writing-log-entries-to-a-file)
 - [How to add a timestamp](#how-to-add-a-timestamp)
 - [Styles](#styles)
@@ -80,6 +81,90 @@ info!(
 - [Changelog](#changelog)
 
 ## Using nolog
+
+**Cargo.toml**
+
+```toml
+[dependencies]
+nolog = { version = "1", features = ["debug"] }
+```
+
+**main.rs**
+
+```rust
+#[macro_use]
+extern crate nolog;
+
+fn main() {
+    trace!("line_count: {}", 42);
+    debug!("line_count: {}", 42);
+    info!("line_count: {}", 42);
+    warn!("line_count: {}", 42);
+    error!("line_count: {}", 42);
+    crit!("line_count: {}", 42);
+}
+```
+
+```sh
+cargo run
+```
+
+**Result:**
+
+![example](https://raw.githubusercontent.com/vglinka/nolog/main/assets/min.png)
+
+You can enable more output filtering features in `cargo.toml`:
+
+**Cargo.toml**
+
+```toml
+[dependencies]
+nolog = { version = "1", features = [
+  "debug",
+  "logonly",
+  "logcatch",
+  "logmod",
+]}
+```
+
+[Appearance](#styles) settings `classic`:
+
+**Cargo.toml**
+
+```toml
+[dependencies]
+nolog = { version = "1", features = [
+  "debug",
+  "show_lvl_header_kv",
+  "indent_ignore_all",
+  "newline_ignore",
+  "location_style_classic",
+  "sep_colon",
+]}
+```
+
+[Appearance](#styles) settings `classic_plain`:
+
+**Cargo.toml**
+
+```toml
+[dependencies]
+nolog = { version = "1", features = [
+  "debug",
+  "plain",
+  "show_lvl_header_kv",
+  "indent_ignore_all",
+  "newline_ignore",
+  "location_style_classic",
+  "sep_colon",
+]}
+```
+
+![styles](https://raw.githubusercontent.com/vglinka/nolog/main/assets/style.gif)
+
+[↑ Table of contents ↑](#table-of-contents)
+
+## Using nolog with `--features`
 
 You need to completely copy the contents of this file to your `cargo.toml`.
 Then you can write `cargo run --features trace,logonly` instead of 
@@ -995,7 +1080,7 @@ cargo test --features trace
 
 ## Changelog
 
-- **1.0.15 - 1.0.16** – Small changes in Readme etc.
+- **1.0.15 - 1.0.17** – Small changes in Readme etc.
 - **1.0.12 - 1.0.14** – Small changes in Readme etc. Minor optimization fixes.
 - **1.0.10 - 1.0.11** – Minor changes, an example with output redirection has been added.
 - **1.0.1 - 1.0.9** – Small changes in Readme etc.
