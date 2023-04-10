@@ -115,9 +115,9 @@ cargo run
 
 You can enable more output filtering features in `cargo.toml`:
 
- - [Logonly](#logonly-display-messages-only-from-a-selected-section-of-code). Display messages only from a selected section of code.
-- [Logcatch](#logcatch-smart-logging). Smart logging. Hide all messages, show the previous `Х` messages if an `error` or `crit` level message was triggered.
-- [Logmod](#logmod-filtering-by-module-path). Filtering by module path.
+ - [Logonly](#logonly-display-messages-only-from-a-selected-section-of-code). Display messages only from a selected section of code. Useful with `trace` level.
+- [Logcatch](#logcatch-smart-logging). Smart logging. Hide all messages, show the previous `Х` messages if an `error` or `crit` level message was triggered. Allows you to understand what preceded the error.
+- [Logmod](#logmod-filtering-by-module-path). Filtering by module path. Receive messages only from the module you are currently working on.
 
 **Cargo.toml**
 
@@ -167,6 +167,56 @@ nolog = { version = "1", features = [
   "sep_colon",
 ]}
 ```
+
+You can specify indentation in the following way:
+
+`crit!(->[X,Y,Z] "msg");`
+
+- `X` - Indents.
+- `Y` - Add `Y` blank lines **before** message.
+- `Z` - Add `Z` blank lines **after** message.
+
+All of these arguments are optional:
+
+```rust
+crit!("msg");
+crit!(->[1] "msg");
+crit!(->[6,1] "msg");
+crit!(->[1,2,3] "msg");
+```
+
+If you want to add blank lines and leave the default indentation:
+
+```rust
+crit!(->[_,1] "msg");
+crit!(->[_,_,2] "msg");
+```
+
+The same works for each message in the chain.
+
+```rust
+debug!(
+    ->[2]   "Planet {name} thinks...";
+    ->[_,1] "Planet {name} thinks...";
+            "Planet {name} thinks...";
+);
+```
+
+Key-values ​​have the additional ability to set indentation not only
+for the key, but also for the value.
+
+```rust
+debug!(
+    "{server}" =>       "{ip}";
+    "Status"   => ->[3] "{server_check_result}";
+);
+```
+
+This allows you to get nice aligned output if you want.
+
+![indent](https://raw.githubusercontent.com/vglinka/nolog/main/assets/indent_1.png)
+
+Read more about [indentation](#indentation-and-new-lines).
 
 [↑ Table of contents ↑](#table-of-contents)
 
@@ -1086,7 +1136,7 @@ cargo test --features trace
 
 ## Changelog
 
-- **1.0.15 - 1.0.17** – Small changes in Readme etc.
+- **1.0.15 - 1.0.18** – Small changes in Readme etc.
 - **1.0.12 - 1.0.14** – Small changes in Readme etc. Minor optimization fixes.
 - **1.0.10 - 1.0.11** – Minor changes, an example with output redirection has been added.
 - **1.0.1 - 1.0.9** – Small changes in Readme etc.
