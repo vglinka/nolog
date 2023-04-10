@@ -86,7 +86,7 @@ info!(
 
 ```toml
 [dependencies]
-nolog = { version = "1", features = ["debug"] }
+nolog = { version = "1", features = ["trace"] }
 ```
 
 **main.rs**
@@ -115,9 +115,9 @@ cargo run
 
 You can enable more output filtering features in `cargo.toml`:
 
- - [Logonly. Display messages only from a selected section of code](#logonly-display-messages-only-from-a-selected-section-of-code)
-- [Logcatch. Smart logging](#logcatch-smart-logging)
-- [Logmod. Filtering by module path](#logmod-filtering-by-module-path)
+ - [Logonly](#logonly-display-messages-only-from-a-selected-section-of-code). Display messages only from a selected section of code.
+- [Logcatch](#logcatch-smart-logging). Smart logging. Hide all messages, show the previous `Х` messages if an `error` or `crit` level message was triggered.
+- [Logmod](#logmod-filtering-by-module-path). Filtering by module path.
 
 **Cargo.toml**
 
