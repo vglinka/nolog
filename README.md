@@ -227,7 +227,7 @@ crit!(->[_,1] "The Universe was created with a lifetime of {} days.", universe.l
 
 This allows you to get nice aligned output if you want.
 
-![indent](https://raw.githubusercontent.com/vglinka/nolog/main/assets/indent_1.png)
+![indent](https://raw.githubusercontent.com/vglinka/nolog/main/assets/indent_3.png)
 
 Read more about [indentation](#indentation-and-new-lines).
 
@@ -1149,7 +1149,7 @@ cargo test --features trace
 
 ## Changelog
 
-- **1.0.15 - 1.0.18** – Small changes in Readme etc.
+- **1.0.15 - 1.0.19** – Small changes in Readme etc.
 - **1.0.12 - 1.0.14** – Small changes in Readme etc. Minor optimization fixes.
 - **1.0.10 - 1.0.11** – Minor changes, an example with output redirection has been added.
 - **1.0.1 - 1.0.9** – Small changes in Readme etc.
