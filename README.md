@@ -168,6 +168,8 @@ nolog = { version = "1", features = [
 ]}
 ```
 
+**Indentation.**
+
 You can specify indentation in the following way:
 
 `crit!(->[X,Y,Z] "msg");`
@@ -180,15 +182,24 @@ All of these arguments are optional:
 
 ```rust
 crit!("msg");
+
+//       X
 crit!(->[1] "msg");
+
+//       X Y
 crit!(->[6,1] "msg");
+
+//       X Y Z
 crit!(->[1,2,3] "msg");
 ```
 
 If you want to add blank lines and leave the default indentation:
 
 ```rust
+//       X Y
 crit!(->[_,1] "msg");
+
+//       X Y Z
 crit!(->[_,_,2] "msg");
 ```
 
@@ -196,9 +207,9 @@ The same works for each message in the chain.
 
 ```rust
 debug!(
-    ->[2]   "Planet {name} thinks...";
-    ->[_,1] "Planet {name} thinks...";
-            "Planet {name} thinks...";
+    ->[2]   "msg 1";
+    ->[_,1] "msg 2";
+            "msg 3";
 );
 ```
 
@@ -206,10 +217,12 @@ Key-values ​​have the additional ability to set indentation not only
 for the key, but also for the value.
 
 ```rust
+debug!(->[_,1] "The simulation server started successfully.");
 debug!(
     "{server}" =>       "{ip}";
     "Status"   => ->[3] "{server_check_result}";
 );
+crit!(->[_,1] "The Universe was created with a lifetime of {} days.", universe.len());
 ```
 
 This allows you to get nice aligned output if you want.
