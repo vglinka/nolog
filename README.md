@@ -59,7 +59,7 @@ info!(
 ## Table of contents
 
 - [Using nolog](#using-nolog)
-- [Using nolog with `--features`](#)
+- [Using nolog with `--features`](#using-nolog-with---features)
 - [Tofile. Writing log entries to a file](#tofile-writing-log-entries-to-a-file)
 - [How to add a timestamp](#how-to-add-a-timestamp)
 - [Styles](#styles)
@@ -127,7 +127,8 @@ nolog = { version = "1", features = [
 ]}
 ```
 
-[Appearance](#styles) settings `classic`:
+In addition, you can customize the appearance settings.
+Appearance settings `classic`:
 
 **Cargo.toml**
 
@@ -143,7 +144,7 @@ nolog = { version = "1", features = [
 ]}
 ```
 
-[Appearance](#styles) settings `classic_plain`:
+Appearance settings `classic_plain`:
 
 **Cargo.toml**
 
