@@ -111,9 +111,13 @@ cargo run
 
 **Result:**
 
-![example](https://raw.githubusercontent.com/vglinka/nolog/main/assets/min.png)
+![example](https://raw.githubusercontent.com/vglinka/nolog/main/assets/min_2.png)
 
 You can enable more output filtering features in `cargo.toml`:
+
+ - [Logonly. Display messages only from a selected section of code](#logonly-display-messages-only-from-a-selected-section-of-code)
+- [Logcatch. Smart logging](#logcatch-smart-logging)
+- [Logmod. Filtering by module path](#logmod-filtering-by-module-path)
 
 **Cargo.toml**
 
@@ -128,6 +132,9 @@ nolog = { version = "1", features = [
 ```
 
 In addition, you can customize the appearance settings.
+
+![styles](https://raw.githubusercontent.com/vglinka/nolog/main/assets/style_2.gif)
+
 Appearance settings `classic`:
 
 **Cargo.toml**
@@ -160,8 +167,6 @@ nolog = { version = "1", features = [
   "sep_colon",
 ]}
 ```
-
-![styles](https://raw.githubusercontent.com/vglinka/nolog/main/assets/style.gif)
 
 [↑ Table of contents ↑](#table-of-contents)
 
